@@ -12,6 +12,10 @@ const port = process.env.PORT;
 
 const app = express();
 
+var Handlebars = require("handlebars");
+var MomentHandler = require("handlebars.moment");
+MomentHandler.registerHelpers(Handlebars);
+
 // const content = require('./../routes/content');
 
 app.use(bodyParser.json());
@@ -58,6 +62,10 @@ app.get('/posts/:title', (req,res)=> {
         });
 
 
+});
+
+app.get('/', (req,res)=>{
+    res.render('index');
 });
 
 app.get('/posts', (req,res)=>{
