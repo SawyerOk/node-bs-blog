@@ -164,3 +164,11 @@
   .blog-footer p:last-child {
     margin-bottom: 0;
   }
+
+  #result-wrap {
+    white-space:pre-wrap;
+  }
+
+  .form-control.error {
+    border : solid 1px red;
+}

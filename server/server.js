@@ -5,8 +5,12 @@ const {mongoose} = require('./db/mongoose');
 const bodyParser = require('body-parser');
 const path = require('path');
 const exphbs = require('express-handlebars');
+const moment = require('moment');
+const {ObjectID} = require('mongodb');
+
 
 const {Post} = require('./models/posts');
+
 
 const port = process.env.PORT;
 
@@ -17,7 +21,10 @@ var MomentHandler = require("handlebars.moment");
 MomentHandler.registerHelpers(Handlebars);
 
 // const content = require('./../routes/content');
+const env = process.env.NODE_ENV || 'development';
 
+// create application/x-www-form-urlencoded parser
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
 app.use(bodyParser.json());
 
 //View engine
@@ -30,35 +37,54 @@ app.use(express.static(path.join(__dirname, '/../public')));
 
 
 
-app.post('/posts', (req, res)=>{
+
+app.post('/createPost',urlencodedParser, (req, res)=>{
+    console.log(req.body);
+	
+    
     const post = new Post({
         title : req.body.title, 
         text : req.body.text,
-        createdAt : req.body.completedAt
+        createdAt : moment().valueOf()
     });
 
     post.save()
         .then( post => {
-            res.send(post);
+            if(env === "development"){
+              res.redirect('posts');
+            } else if (env === 'test'){
+                res.send({post});
+
+            }
+            
         }, (e) => {
             res.status(400).send(e);
         });
 });
 
-app.get('/posts/:title', (req,res)=> {
-    const title = req.params.title;
+app.get('/posts/:id', (req,res)=> {
+    const id = req.params.id;
+    if(!ObjectID.isValid(id)){
+        return res.status(404).render('404Error');
+    }
    
     
-    Post.findOne({ title })
+    Post.findById(id)
         .then( post => {
             if(!post) {
-                return res.status(404).send();
-            }       
-        
-            res.send({post});
+                return res.status(404).render('404Error');
+            }
+            if(env === "development"){
+                res.render('single-post', {post});
+            } else if (env === 'test'){
+                res.send({post});
+
+            }  
+            
+           
         })
         .catch((e)=>{
-            res.status(400).send();
+            res.status(400).render('400Error');
         });
 
 
@@ -68,13 +94,25 @@ app.get('/', (req,res)=>{
     res.render('index');
 });
 
+app.get('/create', (req, res)=>{
+    res.render('createPost');
+});
+
+app.get('/createPost', (req,res)=>{
+    res.render('createPost');
+});
+
 app.get('/posts', (req,res)=>{
     Post.find()
         .then( posts => {
             // testing
-            //res.send({posts});
             
-            res.render('content', {posts} );
+            if(env === "development"){
+                res.render('posts', {posts} );
+            } else if (env === 'test'){
+                res.send({posts});
+
+            }
         }, (e)=>{
             res.status(400).send(e);
         });
@@ -82,6 +120,7 @@ app.get('/posts', (req,res)=>{
 
 app.listen(port, ()=>{
     console.log(`Started at ${port}`);
+    console.log(process.env.MONGOLAB_URI);
 })
 
 module.exports = {app};

@@ -45,10 +45,10 @@ describe('GET /posts', () => {
     });
   });
 
-  describe('GET /posts/:title', () => {
-    it("should return post's text", (done) => {
+  describe('GET /posts/:id', () => {
+    it("should return post with id text", (done) => {
       request(app)
-        .get(`/posts/${posts[0].title}`)
+        .get(`/posts/${posts[0]._id.toHexString()}`)
         .expect(200)
         .expect((res) => {
           expect(res.body.post.text).toBe(posts[0].text);
@@ -69,16 +69,15 @@ describe('POST /posts', ()=>{
     it('should create new post', (done)=>{
         var postNew = {
             title : "myTitle",
-            text : "This is title",
-            completedAt : 1231231312
+            text : "This is title"
         };
         request(app)
-            .post('/posts')
+            .post('/createPost')
             .send(postNew)
             .expect(200)
             .expect((res) => {
-                console.log(res.body);
-                expect(res.body.text).toBe(postNew.text);
+
+                expect(res.body.post.text).toBe(postNew.text);
               })
             .end(done);
 

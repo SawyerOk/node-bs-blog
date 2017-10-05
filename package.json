@@ -19,6 +19,7 @@
     "express-handlebars": "^3.0.0",
     "handlebars": "^4.0.10",
     "handlebars.moment": "^1.0.4",
+    "moment": "^2.18.1",
     "mongodb": "^2.2.5",
     "mongoose": "^4.12.0",
     "mongoose-pagination": "^1.0.0"
