@@ -50,10 +50,10 @@ app.post('/createPost',urlencodedParser, (req, res)=>{
 
     post.save()
         .then( post => {
-            if(env === "development"){
-              res.redirect('posts');
-            } else if (env === 'test'){
+            if(env === 'test'){
                 res.send({post});
+            } else {
+                res.redirect('posts');
 
             }
             
@@ -74,10 +74,10 @@ app.get('/posts/:id', (req,res)=> {
             if(!post) {
                 return res.status(404).render('404Error');
             }
-            if(env === "development"){
-                res.render('single-post', {post});
-            } else if (env === 'test'){
+            if(env === 'test'){
                 res.send({post});
+            } else {
+                res.render('single-post', {post});
 
             }  
             
@@ -107,10 +107,10 @@ app.get('/posts', (req,res)=>{
         .then( posts => {
             // testing
             
-            if(env === "development"){
-                res.render('posts', {posts} );
-            } else if (env === 'test'){
+            if(env === "test"){
                 res.send({posts});
+            } else {
+                res.render('posts', {posts} );
 
             }
         }, (e)=>{
