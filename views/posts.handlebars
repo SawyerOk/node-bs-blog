@@ -13,12 +13,4 @@
     <h3>You should to fell db,<a href="create">create new posts</a></h3>
     
 {{/if}}
-{{#each posts}}
-<div class="blog-post">
-    <h2 class="blog-post-title"> <a href="/posts/{{this._id}}">{{this.title}}</a>  </h2>
-    <p class="blog-post-meta">{{moment this.createdAt format='MMMM Do YYYY, h:mm:ss a'}} <span>Admin</span></p>
-    <div style="white-space:pre-wrap;">
-        {{this.text}}
-    </div>
-</div><!-- /.blog-post -->
-{{/each}}
+
