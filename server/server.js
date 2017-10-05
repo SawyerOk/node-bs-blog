@@ -10,6 +10,7 @@ const {ObjectID} = require('mongodb');
 
 
 const {Post} = require('./models/posts');
+const adminR = require('./../routes/admin');
 
 
 const port = process.env.PORT;
@@ -35,7 +36,7 @@ app.set('view engine', 'handlebars');
 // Static folder
 app.use(express.static(path.join(__dirname, '/../public')));
 
-
+app.use('/admin', admin);
 
 
 app.post('/createPost',urlencodedParser, (req, res)=>{
