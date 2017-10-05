@@ -36,7 +36,7 @@ app.set('view engine', 'handlebars');
 // Static folder
 app.use(express.static(path.join(__dirname, '/../public')));
 
-app.use('/admin', admin);
+app.use('/admin', adminR);
 
 
 app.post('/createPost',urlencodedParser, (req, res)=>{
