@@ -118,6 +118,10 @@ app.get('/posts', (req,res)=>{
         });
 }); 
 
+app.get('/:title', (req, res)=>{
+    res.status(404).render('404Error');
+})
+
 app.listen(port, ()=>{
     console.log(`Started at ${port}`);
     console.log(process.env.MONGOLAB_URI);
