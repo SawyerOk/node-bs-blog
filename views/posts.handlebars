@@ -1,14 +1,29 @@
 
 {{#if posts}}
+    {{#if adminRule}}
+         {{#each posts}}
+            <div class="blog-post">
+                <h2 class="blog-post-title"> <a href="posts/{{this._id}}">{{this.title}}</a>  </h2>
+                <p class="blog-post-meta">{{moment this.createdAt format='MMMM Do YYYY, h:mm:ss a'}} <span>Admin</span></p>
+                <div style="white-space:pre-wrap;">
+                    {{this.text}}
+                </div>
+                <form action="/admin/delete/{{this.id}}" method="post">
+                    <button class="btn btn-danger" type="submit">Delete Post</button>
+                </form>
+            </div><!-- /.blog-post -->
+        {{/each}}
+    {{else}}
     {{#each posts}}
         <div class="blog-post">
             <h2 class="blog-post-title"> <a href="/posts/{{this._id}}">{{this.title}}</a>  </h2>
             <p class="blog-post-meta">{{moment this.createdAt format='MMMM Do YYYY, h:mm:ss a'}} <span>Admin</span></p>
             <div style="white-space:pre-wrap;">
                 {{this.text}}
-            </div>
+            </div>        
         </div><!-- /.blog-post -->
-{{/each}}
+    {{/each}}
+{{/if}}
 {{else}}
     <h3>You should to fell db,<a href="create">create new posts</a></h3>
     

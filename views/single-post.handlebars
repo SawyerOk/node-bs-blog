@@ -1,5 +1,21 @@
-<h1>POST :{{post.title}}</h1>
-<div class="denger">
-{{post.text}}
-    
-</div> 
+AdminRUle {{adminRule}}
+{{#if adminRule}}
+    <form action="../update/{{post.id}}" method="post">
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title" name="title" value="{{post.title}}">
+        </div>
+        <div class="form-grou">
+            <label for="text">Text</label> 
+            <textarea name="text" id="text" cols="30" rows="10" class="form-control">{{post.text}}</textarea>
+        </div>
+        <button type="submit" class="btn btn-info">Update</button> 
+    </form>
+
+    {{else}}
+    <h1>{{post.title}}</h1>
+    <div class="denger">
+        {{post.text}}
+    </div> 
+
+{{/if}} 
