@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const {ObjectID} = require('mongodb');
-const {Post} = require('./../server/models/posts');
+const {Post} = require('./../models/posts');
 const bodyParser = require('body-parser');
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })

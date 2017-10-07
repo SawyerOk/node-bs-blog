@@ -4,13 +4,15 @@ const express = require('express');
 const {mongoose} = require('./db/mongoose');
 const bodyParser = require('body-parser');
 const path = require('path');
+const morgan = require('morgan');
 const exphbs = require('express-handlebars');
 const moment = require('moment');
 const {ObjectID} = require('mongodb');
 
 
-const {Post} = require('./models/posts');
+const {Post} = require('./../models/posts');
 const adminR = require('./../routes/admin');
+const users = require('./../routes/users')
 
 
 const port = process.env.PORT;
@@ -25,7 +27,9 @@ MomentHandler.registerHelpers(Handlebars);
 const env = process.env.NODE_ENV || 'development';
 
 // create application/x-www-form-urlencoded parser
-var urlencodedParser = bodyParser.urlencoded({ extended: false })
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
+
+app.use(morgan('dev'));
 app.use(bodyParser.json());
 
 //View engine
@@ -36,7 +40,9 @@ app.set('view engine', 'handlebars');
 // Static folder
 app.use(express.static(path.join(__dirname, '/../public')));
 
+// Routes
 app.use('/admin', adminR);
+app.use('/users', users);
 
 
 app.post('/createPost',urlencodedParser, (req, res)=>{
