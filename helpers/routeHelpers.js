@@ -3,10 +3,12 @@ const Joi = require('joi');
 module.exports = {
     validateBody : (schema) => {
         return (req,res,next) =>{
+            console.log('Body : ', req.body);
             const result = Joi.validate(req.body, schema);
 
             if(result.error){
-                return res.status(400).json(result.error);
+                console.log('Error in Joi');
+                return res.status(400).send(result.error);
             }
 
             if(!req.value) { 
